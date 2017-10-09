@@ -1,0 +1,439 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+	<title>Documize the Intelligent Document Environment</title>
+	<link rel="shortcut icon" href="images/favicon.ico" />
+	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+	<meta name="description" content="" />
+	<meta name="keywords" content="Documize, Intelligent Document Environment,Wiki, File Storage, Document, Knowledge Management, KDD" />
+	<!--[if lte IE 8]><script src="js/html5shiv.js"></script><![endif]-->
+<!--	<script src="js/jquery.min.js"></script>-->
+	<script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/jquery-ui.min.js"></script>
+	<script src="js/skel.min.js"></script>
+	<script src="js/skel-layers.min.js"></script>
+	<script src="js/init.js"></script>
+	<noscript>
+		<link rel="stylesheet" href="css/skel.css" />
+		<link rel="stylesheet" href="css/style.css" />
+		<link rel="stylesheet" href="css/style-xlarge.css" />
+	</noscript>
+	<script>
+
+var pricepermonth;
+pricepermonth = 5;
+annualDiscount=0.39;
+$(".leftcolumn1").addClass("hide");
+$(".pricing-picker").addClass("hide");
+
+$(document).ready(function(){
+
+	$(".switcher-cloud").off("click").on("click",function(e){
+		$(".switcher-host").removeClass("selected"),
+		$(".switcher-cloud").removeClass("selected"),
+		$(".switcher-cloud").addClass("selected"),
+		$(".host-price-header").addClass("hide"),
+		$(".cloud-price-header").removeClass("hide"),
+		$(".host-price-options").addClass("hide"),
+		$(".cloud-price-options").removeClass("hide")
+		$("#annual-wrapper").show();
+		$(".leftcolumn1").hide();
+		pricepermonth = 5;
+		setPrice(pricepermonth);
+
+	});
+	$(".switcher-host").off("click").on("click",function(e){
+		$(".switcher-host").removeClass("selected"),
+		$(".switcher-cloud").removeClass("selected"),$(".switcher-host").addClass("selected"),
+		$(".host-price-header").removeClass("hide"),
+		$(".cloud-price-header").addClass("hide"),
+		$(".host-price-options").removeClass("hide"),
+		$(".cloud-price-options").addClass("hide");
+		$("#annual-wrapper").hide();
+		$(".leftcolumn1").show();
+		if(annual.checked) { }
+		else {
+		pricepermonth = (pricepermonth*(1-annualDiscount));
+		}
+		setPrice(pricepermonth);
+  	 });
+  	$(".switcher-enterprise").off("click").on("click",function(e){
+		$(".price-available").removeClass("hide"),
+		$(".documize-options").addClass("hide"),
+		$(".pricing-picker").removeClass("hide");
+
+	});
+	$(".switcher-github").off("click").on("click",function(e){
+			$(".price-available").addClass("hide"),
+			$(".documize-options").removeClass("hide"),
+			$(".pricing-picker").addClass("hide");
+	});
+
+
+document.getElementById("annual").addEventListener("click", function(){
+  if(annual.checked) {
+		pricepermonth = (pricepermonth*(1-annualDiscount));
+		setPrice(pricepermonth);
+	}
+  else {pricepermonth = 5;
+	setPrice(pricepermonth)
+			 }
+  return false;
+});
+
+
+var $s =$("#priceslider").slider({
+  	min: 10,
+  	max: 201,
+  	value: 1,
+		range: "min",
+  	slide: function(event, ui) {
+		var calcprice;
+		var calc_unit_price=1;
+		if (ui.value<15) calc_unit_price=1;
+		if (ui.value<20&&ui.value>=15) 					calc_unit_price=0.8;
+		if (ui.value<40&&ui.value>=20) 					calc_unit_price=0.7;
+		if (ui.value<105&&ui.value>=40) 					calc_unit_price=0.666;
+		if (ui.value>=105) 					calc_unit_price=0.6;
+		if (ui.value> 200) {	$('#displayPrice1').hide(); $(".enterprisepricing").removeClass("hide");}
+		else 			   { 	$('#displayPrice1').show();	$(".enterprisepricing").addClass("hide");}
+
+		calcprice = ((ui.value-10) *calc_unit_price* pricepermonth).toFixed(2);
+		setSpaces(ui.value);
+		var output;
+
+		if (ui.value<=200) output=ui.value
+		else output='200+';
+
+		document.getElementById("displaySpaces").innerHTML = output;
+
+		document.getElementById("displayPrice").innerHTML = '$'+calcprice+'/mo';
+ 	}
+});
+
+	var mySpaces = document.createElement('slider');
+
+	$('#toppicker').append(mySpaces);
+	mySpaces.id = "mySpaces";
+
+
+	function setSpaces(spaces) {
+    var mySpaces = document.getElementById('mySpaces');
+    mySpaces.spaces = spaces;
+	}
+
+
+
+function setPrice(pricepermonth) {
+  var calcprice;
+  var value=$s.slider("value");
+	var calc_unit_price;
+	if (value<15) calc_unit_price=1;
+	if (value<20&&value>=15) 					calc_unit_price=0.8;
+	if (value<40&&value>=20) 					calc_unit_price=0.7;
+	if (value<105&&value>=40) 				calc_unit_price=0.666;
+	if (value>=105) 							    calc_unit_price=0.6;
+
+	if (value> 200) {
+ 		$('#displayPrice1').hide();
+    $(".enterprisepricing").show();
+  }
+else {
+		$('#displayPrice1').show();
+    $(".enterprisepricing").hide();
+}
+
+  	calcprice = ((value-10) * calc_unit_price * pricepermonth).toFixed(2);
+
+
+	var output;
+	if (value<=200) output=value; 	else output='200+';
+	document.getElementById("displaySpaces").innerHTML =output;
+
+ 	document.getElementById("displayPrice").innerHTML = '$'+calcprice+'/mo';
+}
+
+
+
+});
+
+
+
+
+
+</script>
+</head>
+<body>
+
+	<div id="top">
+
+	<!-- Header -->
+	<header id="header" class="skel-layers-fixed">
+		<h1><a href="index.html"><img src="images/color-200x65.png" style="height:40px" alt="Documize"></a></h1>
+		<nav id="nav">
+			<ul>
+				<li><a href="index.html">Home</a></li>
+				<li><a href="product.html">Product</a></li>
+				<li><a href="pricing.html">Pricing</a></li>
+				<li><a href="https://docs.documize.com/">Documentation</a></li>
+				<li><a href="blog.html">Blog</a></li>
+				<li><a href="contact.html">Contact</a></li>
+				<li><a href="https://documize.com/welcome" class="button special" style="background-color:aliceblue;color:cornflowerblue !important">Get Started For Free</a></li>
+			</ul>
+		</nav>
+	</header>
+			<!--	<div class="container">
+					<div class="row">
+						<div class="8u">
+							<section>
+								<h2>Mollis ut adipiscing</h2>
+								<a href="#" class="image fit"><img src="images/pic03.jpg" alt="" /></a>
+								<p>Vis accumsan feugiat adipiscing nisl amet adipiscing accumsan blandit accumsan sapien blandit ac amet faucibus aliquet placerat commodo. Interdum ante aliquet commodo accumsan vis phasellus adipiscing. Ornare a in lacinia. Vestibulum accumsan ac metus massa tempor. Accumsan in lacinia ornare massa amet. Ac interdum ac non praesent. Cubilia lacinia interdum massa faucibus blandit nullam. Accumsan phasellus nunc integer. Accumsan euismod nunc adipiscing lacinia erat ut sit. Arcu amet. Id massa aliquet arcu accumsan lorem amet accumsan commodo odio cubilia ac eu interdum placerat placerat arcu commodo lobortis adipiscing semper ornare pellentesque.</p>
+								<p>Amet nibh adipiscing adipiscing. Commodo ante vis placerat interdum massa massa primis. Tempus condimentum tempus non ac varius cubilia adipiscing placerat lorem turpis at. Aliquet lorem porttitor interdum. Amet lacus. Aliquam lobortis faucibus blandit ac phasellus. In amet magna non interdum volutpat porttitor metus a ante ac neque. Nisi turpis. Commodo col. Interdum adipiscing mollis ut aliquam id ante adipiscing commodo integer arcu amet blandit adipiscing arcu ante.</p>
+							</section>
+						</div>
+						<div class="4u">
+							<section>
+								<h3>Magna massa blandit</h3>
+								<p>Feugiat amet accumsan ante aliquet feugiat accumsan. Ante blandit accumsan eu amet tortor non lorem felis semper. Interdum adipiscing orci feugiat penatibus adipiscing col cubilia lorem ipsum dolor sit amet feugiat consequat.</p>
+								<ul class="actions">
+									<li><a href="#" class="button alt">Learn More</a></li>
+								</ul>
+							</section>
+							<hr />
+							<section>
+								<h3>Ante sed commodo</h3>
+								<ul class="alt">
+									<li><a href="#">Erat blandit risus vis adipiscing</a></li>
+									<li><a href="#">Tempus ultricies faucibus amet</a></li>
+									<li><a href="#">Arcu commodo non adipiscing quis</a></li>
+									<li><a href="#">Accumsan vis lacinia semper</a></li>
+									<li><a href="#">Erat blandit risus vis adipiscing</a></li>
+									<li><a href="#">Tempus ultricies faucibus amet</a></li>
+									<li><a href="#">Arcu commodo non adipiscing quis</a></li>
+									<li><a href="#">Accumsan vis lacinia semper</a></li>
+								</ul>
+							</section>
+						</div>
+					</div>
+					-->
+</div>
+
+<section class="container pricing_container">
+					<div class="row">
+						<div class="6u">
+							<section class="special" >
+								<a class="image fit switcher-github"><img src="images/git_logo.png" alt="Documize Github" /></a>
+								<div class="documize-options">
+									<p style="margin: 0.5em;">Built in Go + EmberJS + MySQL|Percona</p>
+									<p style="margin: 0.5em;">Handles documents and wiki pages</p>
+									<p style="margin: 0.5em;">Open source core edition</p>
+									<p style="margin: 0.5em;">Unlimited documents</p>
+									<p style="margin: 0.5em;">20mb download with 0 dependencies</p>
+									<p style="margin: 0.5em;">Microsoft Word conversion</p>
+									<p style="margin: 0.7em;">WYSIWYG editor<br></p>
+									<ul class="actions">
+										<li><a href="https://github.com/documize/community" class="button alt">Github></a></li>
+									</ul>
+								</div>
+							</section>
+						</div>
+						<div class="6u">
+							<section class="special">
+								<a class="image fit"><img src="images/ee_logo.png" alt="Documize Enterprise Edition" /></a>
+								<div class="documize-options">
+
+								<p style="font-weight: bold;margin:initial;">Community Edition Features+</p>
+								<p style="margin:initial">No future charges for add-ons</p>
+								<p style="margin:initial">Unlimited Document actions and workflow</p>
+								<p style="margin:initial">Feedback management</p>
+								<p style="margin:initial">Secure external document sharing</p>
+								<p style="margin:initial">Keycloak AD/LDAP authentication</p>
+								<p style="margin:initial">Word document import, PDF export</p>
+								<p style="margin:initial">Source code licensing option</p>
+								<p style="margin:initial; padding-bottom:3px">Technical support, product help</p>
+								<ul class="actions">
+									<li><a class="button big special switcher-enterprise">Get Started</a></li>
+								</ul>
+								</div>
+							</section>
+						</div>
+					</div>
+	</section>
+
+
+<!-- pricing-->
+<section class="container">
+
+	<div class="price-available hide">
+		<div class="pricing-switcher" style="text-align: center;">
+			<div class="option switcher-cloud selected">
+				<div class="title">Cloud-hosted</div>
+				<!--			<div class="desc">Instant sign-up, we host for you</div>
+                -->
+			</div>
+			<div class="option switcher-host ">
+				<div class="title">Self-hosted</div>
+				<!--			<div class="desc">Installed in your data center</div>
+                -->
+			</div>
+		</div>
+	</div>
+	<div class="pricing-picker hide">
+		<div id="pricing-slider">
+			<h2 style="color: #546b81;">Tell us how many secure spaces you need</h2>
+
+			<div id="toppicker">
+				<label id="toppicker1">
+					<div id='displaySpaces1'>I'm planning to have <span id='displaySpaces' class='displaySpaces'>10</span> secure spaces</div>
+					<div id='displayPrice1'>
+						<span class="leftcolumn1">Annual Billing</span>
+						Pricing: <span id='displayPrice' class='displayPrice'>$0.00/mo</span>
+					</div>
+					<div class="enterprisepricing hide">Contact Sales for Enterprise Pricing</div>
+				</label>
+						<div id="priceslider"></div>
+			</div>
+		</div>
+		<div id="annual-wrapper">
+			<div id="leftcolumn">
+				<p>Save 39% with Annual billing</p>
+			</div>
+			<div id="rightcolumn">
+				<span class="checkbox">
+				  <input type="checkbox" id="annual">
+				  <label data-on="&#x2714;" data-off="&#x2718;"></label>
+				</span>
+			</div>
+		</div>
+		<span>
+		<ul style="padding-top: 30px;width:100%; color:#546b81;font-size:1.25rem; text-align: center;">
+			<li style="display: inline;"> unlimited users</li>
+			<li style="display: inline;"> • unlimited documents </li>
+			<li style="display: inline;"> • 100% secure data</li>
+			<li style="display: inline;"> • cancel anytime</li>
+		</ul>
+		</span>
+		<div style="text-align:center">
+		<a href="#content" class="button big special">Get Started</a>
+		</div>
+	</div>
+
+
+</section>
+
+<!-- common questions  -->
+<section class="container">
+	<style type="text/css">
+	#wrap {
+		width: 100%;
+		margin: 0 auto;
+		display: table;
+	}
+	#left_col {
+	   float:left;
+	   width:48%;
+	}
+	#right_col {
+	   float:right;
+	   width:50%;
+	}
+	@media only screen and (max-width: 480px){
+		#left_col {
+		   width:100%;
+		}
+		#right_col {
+		   width:100%;
+		}
+	}
+	</style>
+
+	<h1 style="text-align: center;font-size: 25px;font-weight: bolder;color: cornflowerblue;">
+		<br>Common Questions
+	</h1>
+
+	<div id="wrap">
+		<div id="left_col">
+			<p style="font-weight: bold;margin:initial;">Can you accept a Purchase Order or a government purchase request?
+			<p>Yes. Please email your paperwork to sales@documize.com and we'l do the rest.
+			<p style="font-weight: bold;margin:initial;">Can you demo Documize to my team?
+			<p>Of course, contact contact the sales team and we’ll happily schedule a product for your team.
+			<p style="font-weight: bold;margin:initial;">Do you provide migration assistance?
+			<p>We can and do assist customers with data migration from SharePoint and Confluence.
+			<p style="font-weight: bold;margin:initial;">Is this a one-time fee?
+			<p>The licensing model is an annual product subscription providing access to the latest release and technical support.
+			<p style="font-weight: bold;margin:initial;">What are the server requirements?
+			<p>Available on Windows, Linux or MacOS servers. MySQL (v5.7.10+) or Percona Server (v5.7.16-10+) is required.
+			<p style="font-weight: bold;margin:initial;">Where are you based?
+			<p>We are headquartered out of San Francisco and have a presence in London, UK.
+			<p style="font-weight: bold;margin:initial;"> Do you provide competitive product discounts?
+			<p>Shhh. Get in touch.
+		</div>
+		<div id="right_col">
+			<p style="font-weight: bold;margin:initial;">Can we cancel?</p>
+			<p>Yes you can cancel your subscription at any time with no additional cost.</p>
+			<p style="font-weight: bold;margin:initial;">Does your software 'call home' or otherwise track in-app activity?</p>
+			<p>We collect telemetry and app usage information, for non-evil purposes, which you can disable from your admin console.</p>
+			<p style="font-weight: bold;margin:initial;">Where can I find and review your Privacy, Terms and Security policy?</p>
+			<p>Please see the link in the footer that is located at the bottom of every page.</p>
+			<p style="font-weight: bold;margin:initial;">What is the latest release?</p>
+			<p>v1.55.0 is the latest Documize release.</p>
+			<p style="font-weight: bold;margin:initial;">What are the deployment requirements?</p>
+			<p>Documize ships as a single binary that is the HTTP/2 web server, front-end and back-end. It's about a 20MB file that has ZERO runtime dependencies. No Java, PHP, .NET of Ruby runtime needed.</p>
+			<p style="font-weight: bold;margin:initial;">Can I talk to someone?</p>
+			<p>Of course, just get in touch and schedule a phone call.</p>
+		</div>
+	</div>
+</section>
+
+
+	<!-- Footer -->
+	<footer id="footer">
+		<div class="container">
+			<div class="row double">
+				<div class="6u">
+					<div class="row collapse-at-2">
+						<div class="6u">
+							<h3>SiteMap</h3>
+							<ul class="alt">
+								<li><a href="product.html">Product</a></li>
+								<li><a href="pricing.html">Pricing</a></li>
+								<li><a href="https://docs.documize.com/">Documentation</a></li>
+								<li><a href="contact.html">Contact</a></li>
+							</ul>
+						</div>
+						<div class="6u">
+							<h3>Resources</h3>
+							<ul class="alt">
+								<li><a href="blog.html">Blog</a></li>
+								<li><a href="https://github.com/documize/community">Github</a></li>
+								<li><a href="privacy.html">Privacy</a></li>
+								<li><a href="terms.html">Terms</a></li>
+							</ul>
+						</div>
+					</div>
+				</div>
+				<div class="6u">
+					<h1>Intelligent Document Environment</h1>
+					<img src="images/color-200x65.png"  alt="Documize">
+					<ul class="icons">
+						<li><a href="#" class="icon fa-twitter"><span class="label">Twitter</span></a></li>
+						<li><a href="#" class="icon fa-facebook"><span class="label">Facebook</span></a></li>
+						<li><a href="#" class="icon fa-instagram"><span class="label">Instagram</span></a></li>
+						<li><a href="#" class="icon fa-linkedin"><span class="label">LinkedIn</span></a></li>
+						<li><a href="#" class="icon fa-pinterest"><span class="label">Pinterest</span></a></li>
+					</ul>
+				</div>
+			</div>
+			<ul class="copyright">
+				<li>&copy; 2017 Documize Inc. All rights reserved. 548 Market St #53339, San Francisco, CA 94104-5401</li>
+				<li><a href="privacy.html">Privacy</a></li>
+				<li><a href="terms.html">Terms</a></li>
+				<li><a href="security.html">Security Policy</a></li>
+			</ul>
+		</div>
+	</footer>
+
+
+	</body>
+</html>
